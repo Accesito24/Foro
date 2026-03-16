@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro de Mensajes - Hackathon</title>
+    <!-- Pico.css para estilos rápidos y limpios -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong>Foro Hackathon</strong></li>
+            </ul>
+            <ul id="nav-unauth">
+                <li><button class="outline" onclick="showSection('login')">Ingresar</button></li>
+                <li><button onclick="showSection('register')">Registro</button></li>
+            </ul>
+            <ul id="nav-auth" style="display: none;">
+                <li><strong id="user-greeting"></strong></li>
+                <li><button class="outline" onclick="logout()">Cerrar Sesión</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        
+        <!-- Alertas globales manejadas por JS -->
+        <div id="alert-box" class="alert" style="display: none;"></div>
+
+        <!-- SECCIÓN: REGISTRO -->
+        <section id="section-register" style="display: none;">
+            <h2>Registro de Usuario</h2>
+            <form id="form-register">
+                <input type="text" id="reg-username" name="username" placeholder="Nombre de usuario" required>
+                <input type="email" id="reg-email" name="email" placeholder="Correo electrónico" required>
+                <input type="password" id="reg-password" name="password" placeholder="Contraseña" required>
+                <input type="password" id="reg-confirm" name="confirmPassword" placeholder="Confirmar Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p>¿Ya tienes cuenta? <a href="#" onclick="showSection('login')">Inicia sesión aquí</a></p>
+        </section>
+
+        <!-- SECCIÓN: LOGIN -->
+        <section id="section-login" style="display: none;">
+            <h2>Iniciar Sesión</h2>
+            <form id="form-login">
+                <input type="text" id="login-identifier" name="identifier" placeholder="Email o Usuario" required>
+                <input type="password" id="login-password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Ingresar</button>
+            </form>
+            <p>¿No tienes cuenta? <a href="#" onclick="showSection('register')">Regístrate aquí</a></p>
+        </section>
+
+        <!-- SECCIÓN: MURO DE MENSAJES (Público) -->
+        <section id="section-wall">
+            <h2>Muro Público</h2>
+            
+            <!-- Formulario para publicar (solo visible si Auth) -->
+            <article id="post-box" style="display: none; margin-bottom: 2rem;">
+                <form id="form-post">
+                    <textarea id="post-text" placeholder="Escribe tu mensaje aquí... (Máx 500 caracteres)" maxlength="500" required></textarea>
+                    <button type="submit">Publicar Mensaje</button>
+                </form>
+            </article>
+
+            <div id="no-auth-message" style="margin-bottom: 2rem;">
+                <em>Inicia sesión para poder publicar mensajes.</em>
+            </div>
+
+            <!-- Contenedor de mensajes -->
+            <div id="messages-container">
+                <p>Cargando mensajes...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

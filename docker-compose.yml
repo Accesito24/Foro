@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # ======== BACKEND ========
+  api:
+    build: 
+      context: ./backend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Sincroniza tu código en tiempo real para no reiniciar el contenedor cada vez
+      - ./backend:/app
+      # Protege para que las dependencias locales no sobrescriban las del contenedor
+      - /app/node_modules
+      # Volumen persistente para la BD (Regla de oro del survival_checklist)
+      - sqlite_data:/app/data
+    environment:
+      - PORT=3000
+    # Usaremos nodemon para el desarrollo ágil en el hackathon
+    command: npm run dev
+
+  # ======== FRONTEND ========
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      # Nnginx servirá la carpeta frontend directamente en modo solo lectura
+      - ./frontend:/usr/share/nginx/html:ro
+
+volumes:
+  # Volumen para que la base de datos de SQLite no se borre al apagar (docker-compose down)
+  sqlite_data:
